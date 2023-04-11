@@ -59,6 +59,53 @@ def eliminarPermiso(id):
 """
 
 """
+""" 
+MESA 
+"""
+
+
+@app.route("/mesas", methods=['GET'])
+def getMesas():
+   json = miControladorMesa.index()
+   return jsonify(json)
+
+
+@app.route("/mesas", methods=['POST'])
+def crearMesa():
+   data = request.get_json()
+   json = miControladorMesa.create(data)
+   return jsonify(json)
+
+
+@app.route("/mesas/<string:id>", methods=['GET'])
+def getMesa(id):
+   json = miControladorMesa.show(id)
+   return jsonify(json)
+
+
+@app.route("/mesas/<string:id>", methods=['PUT'])
+def modificarMesas(id):
+   data = request.get_json()
+   json = miControladorMesa.update(id, data)
+   return jsonify(json)
+
+
+@app.route("/mesas/<string:id>", methods=['DELETE'])
+def eliminarMesa(id):
+   json = miControladorMesa.delete(id)
+   return jsonify(json)
+
+
+@app.route("/", methods=['GET'])
+def test():
+   json = {}
+   json["message"] = "Server running ..."
+   return jsonify(json)
+
+
+
+
+
 
 def loadFileConfig():
     with open('config.json') as f:
