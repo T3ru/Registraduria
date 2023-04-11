@@ -23,7 +23,7 @@ miControladorPermiso= ControladorPermiso()
 Servicios que el servidor ofrecerá; se definen las rutas
 y tipos de peticiones a las cuales el servidor responderá CRUD.
 """
-#########################Servicios Estudiante###################################
+#########################Servicios Permisos###################################
 @app.route("/Permisos", methods=['GET'])
 def getPermiso():
     json = miControladorPermiso.index()
@@ -37,20 +37,20 @@ def crearPermiso():
     return jsonify(json)
 
 
-@app.route("/estudiantes/<string:id>", methods=['GET'])
+@app.route("/Permisos/<string:id>", methods=['GET'])
 def getPermiso(id):
     json = miControladorPermiso.show(id)
     return jsonify(json)
 
 
-@app.route("/estudiantes/<string:id>", methods=['PUT'])
+@app.route("/Permisos/<string:id>", methods=['PUT'])
 def modificarPermiso(id):
     data = request.get_json()
     json = miControladorPermiso.update(id, data)
     return jsonify(json)
 
 
-@app.route("/estudiantes/<string:id>", methods=['DELETE'])
+@app.route("/Permisos/<string:id>", methods=['DELETE'])
 def eliminarPermiso(id):
     json = miControladorPermiso.delete(id)
     return jsonify(json)
