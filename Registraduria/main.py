@@ -5,6 +5,8 @@ from flask_cors import CORS
 import json
 from waitress import serve
 from Controladores.ControladorPermiso import ControladorPermiso
+from Controladores.ControladorRol import ControladorRol
+
 
 app = Flask(__name__)
 """
@@ -17,6 +19,7 @@ cors = CORS(app)
 Implementacion de los controladores
 """
 miControladorPermiso= ControladorPermiso()
+miControladorRol = ControladorRol()
 
 
 """
@@ -24,41 +27,90 @@ Servicios que el servidor ofrecerá; se definen las rutas
 y tipos de peticiones a las cuales el servidor responderá CRUD.
 """
 #########################Servicios Permisos###################################
-@app.route("/Permisos", methods=['GET'])
+@app.route("/permisos", methods=['GET'])
 def getPermiso():
     json = miControladorPermiso.index()
     return jsonify(json)
 
 
-@app.route("/Permisos", methods=['POST'])
+@app.route("/permisos", methods=['POST'])
 def crearPermiso():
     data = request.get_json()
     json = miControladorPermiso.create(data)
     return jsonify(json)
 
 
-@app.route("/Permisos/<string:id>", methods=['GET'])
-def getPermiso(id):
+@app.route("/permisos/<string:id>", methods=['GET'])
+def getPermisos(id):
     json = miControladorPermiso.show(id)
     return jsonify(json)
 
 
-@app.route("/Permisos/<string:id>", methods=['PUT'])
+@app.route("/permisos/<string:id>", methods=['PUT'])
 def modificarPermiso(id):
     data = request.get_json()
     json = miControladorPermiso.update(id, data)
     return jsonify(json)
 
 
-@app.route("/Permisos/<string:id>", methods=['DELETE'])
+@app.route("/permisos/<string:id>", methods=['DELETE'])
 def eliminarPermiso(id):
     json = miControladorPermiso.delete(id)
     return jsonify(json)
 
+#########################Servicios Rol###################################
+@app.route("/roles", methods=['GET'])
+def getRoles():
+    json = miControladorRol.index()
+    return jsonify(json)
+
+
+@app.route("/roles", methods=['POST'])
+def crearRol():
+    data = request.get_json()
+    json = miControladorRol.create(data)
+    return jsonify(json)
+
+
+@app.route("/roles/<string:id>", methods=['GET'])
+def getRol(id):
+    json = miControladorRol.show(id)
+    return jsonify(json)
+
+
+@app.route("/roles/<string:id>", methods=['PUT'])
+def modificarRol(id):
+    data = request.get_json()
+    json = miControladorRol.update(id, data)
+    return jsonify(json)
+
+
+@app.route("/roles/<string:id>", methods=['DELETE'])
+def eliminarRol(id):
+    json = miControladorRol.delete(id)
+    return jsonify(json)
+
+##############################################################################
 
 """
+Servicio que el servidor ofrecerá, y este consiste en retornar un JSON el cual
+tiene un mensaje que dice que el servidor está corriendo.
+"""
+
+
+@app.route("/", methods=['GET'])
+def test():
+    json = {}
+    json["message"] = "Server running ..."
+    return jsonify(json)
+
 
 """
+Método leer el archivo de configuración del proyecto,
+retornará un diccionario el cual posee la información dentro del
+JSON y se podrá acceder a los atributos necesarios.
+"""
+
 
 def loadFileConfig():
     with open('config.json') as f:

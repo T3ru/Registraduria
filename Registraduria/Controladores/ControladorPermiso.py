@@ -9,7 +9,7 @@ class ControladorPermiso():
         return self.repositorioPermiso.findAll()
 
     def create(self, elpermiso):
-        print("Crear un estudiante")
+        print("Crear un permisos")
         nuevoPermiso = Permiso(elpermiso)
         return self.repositorioPermiso.save(nuevoPermiso)
 
