@@ -4,6 +4,7 @@ from flask import request
 from flask_cors import CORS
 import json
 from waitress import serve
+from Controladores.ControladorPermiso import ControladorPermiso
 
 app = Flask(__name__)
 """
@@ -15,12 +16,44 @@ cors = CORS(app)
 """
 Implementacion de los controladores
 """
+miControladorPermiso= ControladorPermiso()
 
 
 """
 Servicios que el servidor ofrecerá; se definen las rutas
 y tipos de peticiones a las cuales el servidor responderá CRUD.
 """
+#########################Servicios Estudiante###################################
+@app.route("/Permisos", methods=['GET'])
+def getPermiso():
+    json = miControladorPermiso.index()
+    return jsonify(json)
+
+
+@app.route("/Permisos", methods=['POST'])
+def crearPermiso():
+    data = request.get_json()
+    json = miControladorPermiso.create(data)
+    return jsonify(json)
+
+
+@app.route("/estudiantes/<string:id>", methods=['GET'])
+def getPermiso(id):
+    json = miControladorPermiso.show(id)
+    return jsonify(json)
+
+
+@app.route("/estudiantes/<string:id>", methods=['PUT'])
+def modificarPermiso(id):
+    data = request.get_json()
+    json = miControladorPermiso.update(id, data)
+    return jsonify(json)
+
+
+@app.route("/estudiantes/<string:id>", methods=['DELETE'])
+def eliminarPermiso(id):
+    json = miControladorPermiso.delete(id)
+    return jsonify(json)
 
 
 """
