@@ -6,7 +6,7 @@ import json
 from waitress import serve
 from Controladores.ControladorPermiso import ControladorPermiso
 from Controladores.ControladorRol import ControladorRol
-
+from Controladores.ControladorPermisoRol import ControladorPermisoRol
 
 app = Flask(__name__)
 """
@@ -20,7 +20,7 @@ Implementacion de los controladores
 """
 miControladorPermiso= ControladorPermiso()
 miControladorRol = ControladorRol()
-
+miControladorPermisoRol= ControladorPermisoRol()
 
 """
 Servicios que el servidor ofrecerá; se definen las rutas
@@ -92,6 +92,36 @@ def eliminarRol(id):
 
 ##############################################################################
 
+#########################Servicios PermisoRol###################################
+@app.route("/permisosRoles/<string:id>", methods=['GET'])
+def getPermisoRol(id):
+    json = miControladorPermisoRol.show(id)
+    return jsonify(json)
+
+
+@app.route("/permisosRoles/permiso/<string:id_permiso>/rol/<string:id_rol>", methods=['POST'])
+def crearPermisoRol(id_permiso, id_rol):
+    data = request.get_json()
+    json = miControladorPermisoRol.create(data,id_permiso,id_rol)
+    return jsonify(json)
+
+
+@app.route("/permisosRoles/<string:id_permiso_rol>/permiso/<string:id_permiso>/rol/<string:id_rol>", methods=['PUT'])
+def modificarInscripcion(id_permiso_rol, id_permiso, id_rol):
+    data = request.get_json()
+    json = miControladorPermisoRol.update(id_permiso_rol, data, id_permiso, id_rol)
+    return jsonify(json)
+
+
+@app.route("/permisosRoles/<string:id_permiso_rol>", methods=['DELETE'])
+def eliminarPermisoRol(id_permiso_rol):
+    json = miControladorPermisoRol.delete(id_permiso_rol)
+    return jsonify(json)
+
+
+
+
+##############################################################################
 """
 Servicio que el servidor ofrecerá, y este consiste en retornar un JSON el cual
 tiene un mensaje que dice que el servidor está corriendo.
