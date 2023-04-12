@@ -1,9 +1,13 @@
 from Repositorios.RepositorioPermiso import RepositorioPermiso
 from Modelos.Permiso import Permiso
+
+
 class ControladorPermiso():
+
     def __init__(self):
         self.repositorioPermiso= RepositorioPermiso()
         print("Creando ControladorPermiso")
+
     def index(self):
         print("Listar todos los permisos")
         return self.repositorioPermiso.findAll()
@@ -21,7 +25,7 @@ class ControladorPermiso():
         permisoActual = Permiso(self.repositorioPermiso.findById(id))
         permisoActual.url=elpermiso["url"]
         permisoActual.metodo=elpermiso["metodo"]
-
+        return self.repositorioPermiso.save(permisoActual)
 
     def delete(self, id):
         return self.repositorioPermiso.delete(id)
