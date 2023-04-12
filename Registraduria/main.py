@@ -4,7 +4,11 @@ from flask import request
 from flask_cors import CORS
 import json
 from waitress import serve
+
+from Controladores.ControladorCandidato import ControladorCandidato
+from Controladores.ControladorMesa import ControladorMesa
 from Controladores.ControladorPermiso import ControladorPermiso
+from Controladores.ControladorResultado import ControladorResultado
 
 app = Flask(__name__)
 """
@@ -17,6 +21,10 @@ cors = CORS(app)
 Implementacion de los controladores
 """
 miControladorPermiso= ControladorPermiso()
+miControladorCandidato = ControladorCandidato()
+miControladorMesa = ControladorMesa()
+miControladorResultado = ControladorResultado()
+
 
 
 """
@@ -25,7 +33,7 @@ y tipos de peticiones a las cuales el servidor responderá CRUD.
 """
 #########################Servicios Permisos###################################
 @app.route("/Permisos", methods=['GET'])
-def getPermiso():
+def getPermisos():
     json = miControladorPermiso.index()
     return jsonify(json)
 
@@ -103,7 +111,38 @@ def test():
    return jsonify(json)
 
 
+##########################Servicios Inscripcion###############################
 
+@app.route("/resultados", methods=['GET'])
+def getResultados():
+    json = miControladorResultado.index()
+    return jsonify(json)
+
+
+@app.route("/resultados/<string:id>", methods=['GET'])
+def getResultado(id):
+    json = miControladorResultado.show(id)
+    return jsonify(json)
+
+
+@app.route("/resultados/mesa/<string:id_mesa>/candidato/<string:id_candidato>", methods=['POST'])
+def crearResultado(id_mesa, id_candidato):
+    data = request.get_json()
+    json = miControladorResultado.create(data, id_mesa, id_candidato)
+    return jsonify(json)
+
+
+@app.route("/resultados/<string:id_resultado>/mesa/<string:id_mesa>/candidato/<string:id_candidato>", methods=['PUT'])
+def modificarCandidato(id_resultado, id_mesa, id_candidato):
+    data = request.get_json()
+    json = miControladorResultado.update(id_resultado, data, id_mesa, id_candidato)
+    return jsonify(json)
+
+
+@app.route("/resultados/<string:id_resultado>", methods=['DELETE'])
+def eliminarResultado(id_resultado):
+    json = miControladorResultado.delete(id_resultado)
+    return jsonify(json)
 
 
 
